@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AccountDao {
 
-    double getAccountBalance();
+    double getAccountBalance(int accountId);
     List<Account> getAccounts();
 }
