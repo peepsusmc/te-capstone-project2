@@ -8,6 +8,8 @@ public class Account {
 
     private double balance;
 
+    public Account() {}
+
     public Account(int accountId, int userId, double balance) {
         this.accountId = accountId;
         this.userId = userId;
