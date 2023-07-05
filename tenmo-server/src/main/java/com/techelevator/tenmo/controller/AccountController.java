@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ public class AccountController {
     public AccountController(AccountDao accountDao){
         this.accountDao = accountDao;
     }
-    @RequestMapping("/account")
+    @RequestMapping("{accountId}/balance")
     public double getAccountBalance(@PathVariable int accountId){
         double accountBalance = accountDao.getAccountBalance(accountId);
 
