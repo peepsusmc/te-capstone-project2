@@ -4,5 +4,5 @@ public class Account {
 
     private int accountId;
 
-    private String test;
+
 }
