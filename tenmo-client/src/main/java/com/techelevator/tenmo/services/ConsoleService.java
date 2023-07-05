@@ -49,7 +49,7 @@ public class ConsoleService {
     public UserCredentials promptForCredentials() {
         String username = promptForString("Username: ");
         String password = promptForString("Password: ");
-        return new UserCredentials(username, password);
+        return new UserCredentials(username.toLowerCase(), password);
     }
 
     public String promptForString(String prompt) {
