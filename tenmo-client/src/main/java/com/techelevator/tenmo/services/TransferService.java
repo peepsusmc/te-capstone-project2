@@ -16,15 +16,15 @@ public class TransferService {
     }
 
     HttpEntity<Void> makeAuthEntity() {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
         return new HttpEntity<>(headers);
     }
 
-//    public makeTransfer() {
-//        String url = baseUrl + "/transfer";
-//        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.PUT, makeAuthEntity(), Double.class);
-//        Double num = response.getBody();
-//    }
-//}
+    public void makeTransfer() {
+        String url = baseUrl + "/transfer";
+        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.PUT, makeAuthEntity(), Double.class);
+        Double num = response.getBody();
+    }
 }
