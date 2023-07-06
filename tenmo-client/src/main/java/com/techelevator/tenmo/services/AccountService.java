@@ -6,9 +6,6 @@ import org.springframework.web.client.RestTemplate;
 
 public class AccountService {
     private final String baseUrl = "http://localhost:8080/" ;
-
-
-
     private final RestTemplate restTemplate =  new RestTemplate();
 
     public double getAccountBalance(int accountId){
