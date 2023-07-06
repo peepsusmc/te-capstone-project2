@@ -67,6 +67,9 @@ public class App {
         } else {
             String token = currentUser.getToken();
             accountService.setAuthToken(token);
+            userService.setAuthToken(token);
+
+
         }
     }
 
