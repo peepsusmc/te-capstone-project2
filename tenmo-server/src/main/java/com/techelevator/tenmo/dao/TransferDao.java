@@ -6,10 +6,6 @@ import com.techelevator.tenmo.model.User;
 import java.util.List;
 
 public interface TransferDao {
-    List<Transfer> showAllTransfers();
-
-
-    Transfer findByUsername(String username);
-
+    List<Transfer> showAllTransfers(int accountId);
 
 }
