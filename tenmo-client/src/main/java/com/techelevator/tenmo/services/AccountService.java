@@ -21,24 +21,25 @@ public class AccountService {
     }
     private final RestTemplate restTemplate =  new RestTemplate();
 
-    public double getBalance(){
+    public double getBalance() {
         double balance = 0.0;
-        String url = baseUrl + "account/balance";
-        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, makeAuthEntity(),Double.class);
+        String url = baseUrl + "/balance";
+        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, makeAuthEntity(), Double.class);
         Double num = response.getBody();
         balance = num.doubleValue();
         return balance;
 
-    public HttpEntity<Void> authEntity() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        return new HttpEntity<>(headers);
-    }
-    public double getAccountBalance(){
-        String url = baseUrl + "/balance";
-        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, authEntity(),Double.class);
-
-        Double tmp = response.getBody();
-        return tmp.doubleValue();
+//    public HttpEntity<Void> authEntity() {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBearerAuth(authToken);
+//        return new HttpEntity<>(headers);
+//    }
+//    public double getAccountBalance(){
+//        String url = baseUrl + "/balance";
+//        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, authEntity(),Double.class);
+//
+//        Double tmp = response.getBody();
+//        return tmp.doubleValue();
+//    }
     }
 }
