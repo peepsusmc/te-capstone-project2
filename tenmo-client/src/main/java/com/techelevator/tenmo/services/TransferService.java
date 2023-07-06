@@ -16,7 +16,7 @@ public class TransferService {
         this.authToken = authToken;
     }
 
-    public String makeTransfer(int receiver, BigDecimal amount) {
+    public String makeTransfer(int sender, int receiver, BigDecimal amount) {
         String url = baseUrl + "/transfer";
 
         Transfer transfer = new Transfer();

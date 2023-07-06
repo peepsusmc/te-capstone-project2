@@ -113,9 +113,10 @@ public class App {
 	private void sendBucks() {
 		// TODO Auto-generated method stub
         userService.displayUsers();
+        int sender = 0;
         int receiver = consoleService.promptForInt("Please select a user to send bucks to: ");
         BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money to send in decimal format: ");
-        transferService.makeTransfer(receiver, amount);
+        transferService.makeTransfer(sender, receiver, amount);
 	}
 
 	private void requestBucks() {
