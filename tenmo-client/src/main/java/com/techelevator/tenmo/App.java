@@ -61,7 +61,7 @@ public class App {
             consoleService.printErrorMessage();
         } else {
             String token = currentUser.getToken();
-            accountService.setToken(token);
+            accountService.setAuthToken(token);
         }
     }
 
@@ -91,7 +91,7 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-        double balance = accountService.getAccountBalance();
+        double balance = accountService.getBalance();
         System.out.println("Your current account balance is: " + balance);
 	}
 
