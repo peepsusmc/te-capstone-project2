@@ -43,12 +43,12 @@ public class UserService {
 
     public void displayUsers() {
         List<User> users = getUsers();
+        System.out.printf("%-10s %-20s %n", "User Id", "User Name");
         for (User user : users) {
             int userId = user.getId();
             String username = user.getUsername();
+            System.out.printf("%-10d %-20s%n",userId, username);
 
-            System.out.println("User ID: " + userId);
-            System.out.println("Username: " + username);
         }
     }
 }
