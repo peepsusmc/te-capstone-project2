@@ -10,26 +10,23 @@ import java.security.Principal;
 public class TransferService {
 
     String authToken = null;
-    private final String baseUrl = "http://localhost:8080" ;
-    private final RestTemplate restTemplate =  new RestTemplate();
+    private final String baseUrl = "http://localhost:8080/transfer";
+    private final RestTemplate restTemplate = new RestTemplate();
+
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
 
-    public String makeTransfer(int sender, int receiver, BigDecimal amount) {
-        String url = baseUrl + "/transfer";
-
-        Transfer transfer = new Transfer();
-        transfer.setAccountTo(receiver);
-        transfer.setAmount(amount);
+    HttpEntity<Void> makeAuthEntity() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Transfer> requestEntity = new HttpEntity<>(transfer, headers);
 
-        ResponseEntity<Transfer> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Transfer.class);
-
-        return "Transfer complete";
+    public void makeTransfer() {
+        String url = baseUrl + "/transfer";
+        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.PUT, makeAuthEntity(), Double.class);
+        Double num = response.getBody();
     }
 }
