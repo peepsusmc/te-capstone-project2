@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +29,17 @@ public class JdbcTransferDao implements TransferDao{
             int tempStatusId = results.getInt("transfer_status_id");
             int tempActFromId = results.getInt("account_from");
             int tempActToId = results.getInt("account_to");
-            double tempAmount = results.getDouble("amount");
+            BigDecimal tempAmount = results.getBigDecimal("amount");
 
             Transfer transfer = new Transfer(tempTransId, tempTypeId, tempStatusId, tempActFromId, tempActToId, tempAmount);
             transfers.add(transfer);
         }
         return transfers;
+    }
+    @Override
+    public void createTransfer(Transfer transfer) {
+        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                    "VALUES (2 , 2, ?, ?, ?);";
+        jdbcTemplate.update(sql, transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
     }
 }
