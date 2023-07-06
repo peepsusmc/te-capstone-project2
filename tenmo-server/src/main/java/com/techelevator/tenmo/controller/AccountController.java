@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/account")
 public class AccountController {
 
     private final AccountDao accountDao;

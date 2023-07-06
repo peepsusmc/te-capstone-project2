@@ -15,17 +15,23 @@ public class JdbcAccountDao implements AccountDao{
     public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-@Override
-        public Account getAccountByUserId(int userId) {
-    Account account = null;
-    String sql = "select account_id, user_id, balance from account where user_id = ?";
-    SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
-    if (results.next()){
-        int thisAcctId = results.getInt("account_id");
-        int thisUserId = results.getInt("user_id");
-        double thisBalance = results.getDouble("balance");
 
-        account = new Account(thisAcctId, thisUserId, thisBalance);
+    @Override
+    public Account getAccountByUserId(int userId) {
+        Account account = null;
+        String sql = "select account_id, user_id, balance from account where user_id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        if (results.next()) {
+            int tempAcctId = results.getInt("account_id");
+            int tempUserId = results.getInt("user_id");
+            double tempBalance = results.getDouble("balance");
+
+            account = new Account(tempAcctId, tempUserId, tempBalance);
+
+        }
+        return account;
+
     }
     return account;
 }
