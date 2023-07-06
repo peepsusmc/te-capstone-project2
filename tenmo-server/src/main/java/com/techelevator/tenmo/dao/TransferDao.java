@@ -6,7 +6,7 @@ import com.techelevator.tenmo.model.User;
 import java.util.List;
 
 public interface TransferDao {
-    List<Transfer> findAll();
+    List<Transfer> showAllTransfers();
 
     Transfer getTransferById(int id);
 
