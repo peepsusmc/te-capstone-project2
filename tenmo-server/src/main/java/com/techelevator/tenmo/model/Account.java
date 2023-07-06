@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.model;
 
-public class Account {
+import com.techelevator.tenmo.dao.AccountDao;
+
+public class Account  {
 
     private int accountId;
 
@@ -39,4 +41,6 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+
 }
