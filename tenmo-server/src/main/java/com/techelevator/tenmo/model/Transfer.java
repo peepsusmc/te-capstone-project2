@@ -6,14 +6,16 @@ public class Transfer {
     private int transferTypeId;
     private int transferStatusId;
     private int accountFrom;
+    private int accountTo;
     private double amount;
 
     public Transfer(){};
-    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, double amount) {
+    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo, double amount) {
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
         this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
         this.amount = amount;
     }
 
@@ -31,6 +33,9 @@ public class Transfer {
 
     public int getAccountFrom() {
         return accountFrom;
+    }
+    public int getAccountTo() {
+        return accountTo;
     }
 
     public double getAmount() {
