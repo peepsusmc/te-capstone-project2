@@ -28,18 +28,6 @@ public class AccountService {
         Double num = response.getBody();
         balance = num.doubleValue();
         return balance;
-
-//    public HttpEntity<Void> authEntity() {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setBearerAuth(authToken);
-//        return new HttpEntity<>(headers);
-//    }
-//    public double getAccountBalance(){
-//        String url = baseUrl + "/balance";
-//        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, authEntity(),Double.class);
-//
-//        Double tmp = response.getBody();
-//        return tmp.doubleValue();
-//    }
     }
 }
+
