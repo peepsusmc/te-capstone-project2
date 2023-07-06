@@ -4,6 +4,7 @@ import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,14 +15,18 @@ public class JdbcAccountDao implements AccountDao{
     public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+@Override
+        public Account getAccountByUserId(int userId) {
+    Account account = null;
+    String sql = "select account_id, user_id, balance from account where user_id = ?";
+    SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+    if (results.next()){
+        int thisAcctId = results.getInt("account_id");
+        int thisUserId = results.getInt("user_id");
+        double thisBalance = results.getDouble("balance");
 
-    public double getAccountBalance(int accountId){
-        double balance = 0.0;
-       String sql = "SELECT balance FROM account WHERE account_id = ?";
-
-           balance = jdbcTemplate.queryForObject(sql, Double.class, accountId);
-
-       return balance;
+        account = new Account(thisAcctId, thisUserId, thisBalance);
     }
-
+    return account;
+}
 }
