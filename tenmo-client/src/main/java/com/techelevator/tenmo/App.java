@@ -59,6 +59,9 @@ public class App {
         currentUser = authenticationService.login(credentials);
         if (currentUser == null) {
             consoleService.printErrorMessage();
+        } else {
+            String token = currentUser.getToken();
+            accountService.setToken(token);
         }
     }
 
@@ -88,8 +91,7 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-        int accountId = consoleService.promptForInt("Enter the account ID: ");
-        double balance = accountService.getAccountBalance(accountId);
+        double balance = accountService.getAccountBalance();
         System.out.println("Your current account balance is: " + balance);
 	}
 
