@@ -39,6 +39,6 @@ public class TransferController {
         send.setAccountTo(accountTo);
         send.setAmount(amount);
         transferDao.createTransfer(send);
-        accountDao.updateAccountBalance(accountFrom, accountTo, amount);
+        accountDao.updateAccountBalance(userId, accountTo, amount);
     }
 }
