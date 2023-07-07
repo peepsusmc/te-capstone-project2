@@ -67,6 +67,7 @@ public class App {
         } else {
             String token = currentUser.getToken();
             accountService.setAuthToken(token);
+            transferService.setAuthToken(token);
             userService.setAuthToken(token);
 
 
@@ -126,11 +127,6 @@ public class App {
 		// TODO Auto-generated method stub
 		
 	}
-    public void displayItems() {
-        System.out.printf("%-4s %-20s", "User ID", "User Name");
-        System.out.println();
 
-
-        }
     }
 
