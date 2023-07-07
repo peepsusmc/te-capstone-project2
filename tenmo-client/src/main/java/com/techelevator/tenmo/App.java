@@ -67,6 +67,7 @@ public class App {
         } else {
             String token = currentUser.getToken();
             accountService.setAuthToken(token);
+            transferService.setAuthToken(token);
             userService.setAuthToken(token);
 
 
@@ -116,21 +117,15 @@ public class App {
 	private void sendBucks() {
 		// TODO Auto-generated method stub
         userService.displayUsers();
-        int sender = 0;
-        int receiver = consoleService.promptForInt("Please select a user to send bucks to: ");
+        int receiver = consoleService.promptForInt("Please select a user ID to send bucks to: ");
         BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money to send in decimal format: ");
-        transferService.makeTransfer(sender, receiver, amount);
+        transferService.makeTransfer(receiver, amount);
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
 		
 	}
-    public void displayItems() {
-        System.out.printf("%-4s %-20s", "User ID", "User Name");
-        System.out.println();
 
-
-        }
     }
 

@@ -14,26 +14,27 @@ import java.math.BigDecimal;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/transfer")
 public class TransferController {
-    private final AccountDao accountDao;
+
     private final UserDao userDao;
     private final TransferDao transferDao;
+    private final AccountDao accountDao;
 
     public TransferController(AccountDao accountDao, UserDao userDao, TransferDao transferDao){
         this.accountDao = accountDao;
         this.userDao = userDao;
         this.transferDao = transferDao;
     }
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public Transfer createTransfer(Principal p, @RequestBody Transfer transfer) {
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
+    public void createTransfer(Principal p, @RequestBody Transfer transfer) {
         Transfer send = new Transfer();
         int userId = userDao.findIdByUsername(p.getName());
+        Account account = accountDao.getAccountByUserId(userId);
         send.setTransferTypeId(2);
         send.setTransferStatusId(2);
-        send.setAccountFrom(userId);
+        send.setAccountFrom(account.getAccountId());
         send.setAccountTo(transfer.getAccountTo());
         send.setAmount(transfer.getAmount());
-        return send;
+        transferDao.createTransfer(send);
     }
 }
