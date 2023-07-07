@@ -27,18 +27,20 @@ public class TransferController {
     }
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public void createTransfer(Principal p, @RequestBody Transfer transfer) {
-        Transfer send = new Transfer();
-        int userId = userDao.findIdByUsername(p.getName());
-        Account account = accountDao.getAccountByUserId(userId);
-        int accountFrom = account.getAccountId();
-        int accountTo = transfer.getAccountTo();
+        int senderId = userDao.findIdByUsername(p.getName());
+        Account sender = accountDao.getAccountByUserId(senderId);
+        Account receiver = accountDao.getAccountByUserId(transfer.getAccountTo());
+        int receiverId = receiver.getUserId();
+        int accountFromId = sender.getAccountId();
+        int accountToId = receiver.getAccountId();
         BigDecimal amount = transfer.getAmount();
+        Transfer send = new Transfer();
         send.setTransferTypeId(2);
         send.setTransferStatusId(2);
-        send.setAccountFrom(accountFrom);
-        send.setAccountTo(accountTo);
+        send.setAccountFrom(accountFromId);
+        send.setAccountTo(accountToId);
         send.setAmount(amount);
         transferDao.createTransfer(send);
-        accountDao.updateAccountBalance(userId, accountTo, amount);
+        accountDao.updateAccountBalance(senderId, receiverId, amount);
     }
 }
