@@ -17,16 +17,17 @@ public class TransferService {
         this.authToken = authToken;
     }
 
-    HttpEntity<Void> makeAuthEntity() {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(authToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Transfer> requestEntity = new HttpEntity<>(transfer, headers);
-
-    public void makeTransfer() {
-        String url = baseUrl + "/transfer";
-        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.PUT, makeAuthEntity(), Double.class);
-        Double num = response.getBody();
-    }
+//    HttpEntity<Void> makeAuthEntity() {
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBearerAuth(authToken);
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<Transfer> requestEntity = new HttpEntity<>(transfer, headers);
+//
+//    public void makeTransfer(int sender, int receiver, Bigdecimanl amount) {
+//        String url = baseUrl + "/transfer";
+//        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.PUT, makeAuthEntity(), Double.class);
+//        Double num = response.getBody();
+//    }
+//}
 }
