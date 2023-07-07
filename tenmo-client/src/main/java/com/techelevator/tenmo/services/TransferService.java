@@ -41,7 +41,4 @@ public class TransferService {
             BasicLogger.log(e.getMessage());
         }
     }
-    public void updateBalance(int receiver, BigDecimal amount) {
-
-    }
 }
