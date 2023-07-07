@@ -7,8 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
-public class JdbcAccountDao implements AccountDao{
+public class JdbcAccountDao implements AccountDao {
     private final JdbcTemplate jdbcTemplate;
 
 
@@ -31,6 +33,19 @@ public class JdbcAccountDao implements AccountDao{
 
         }
         return account;
+
+    }
+
+    public void updateAccountBalance(int userId, int receiverId, BigDecimal amount) {
+        String sql = "UPDATE  account " +
+                "SET balance =CASE " +
+                "WHEN user_id = ? THEN balance - ? " +
+                "WHEN user_id = ? THEN balance + ? " +
+                " ELSE balance " +
+                " END " +
+                "WHERE user_id IN (?, ?)";
+        jdbcTemplate.update(sql, userId, amount, receiverId, amount, userId, receiverId);
+
 
     }
 }
