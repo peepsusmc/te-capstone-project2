@@ -45,8 +45,6 @@ public class JdbcAccountDao implements AccountDao {
                 " END " +
                 "WHERE user_id IN (?, ?)";
         jdbcTemplate.update(sql, userId, amount, receiverId, amount, userId, receiverId);
-
-
     }
 }
 

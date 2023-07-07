@@ -30,11 +30,15 @@ public class TransferController {
         Transfer send = new Transfer();
         int userId = userDao.findIdByUsername(p.getName());
         Account account = accountDao.getAccountByUserId(userId);
+        int accountFrom = account.getAccountId();
+        int accountTo = transfer.getAccountTo();
+        BigDecimal amount = transfer.getAmount();
         send.setTransferTypeId(2);
         send.setTransferStatusId(2);
-        send.setAccountFrom(account.getAccountId());
-        send.setAccountTo(transfer.getAccountTo());
-        send.setAmount(transfer.getAmount());
+        send.setAccountFrom(accountFrom);
+        send.setAccountTo(accountTo);
+        send.setAmount(amount);
         transferDao.createTransfer(send);
+        accountDao.updateAccountBalance(accountFrom, accountTo, amount);
     }
 }

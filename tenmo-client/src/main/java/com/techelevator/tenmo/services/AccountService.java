@@ -1,10 +1,9 @@
 package com.techelevator.tenmo.services;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
 
 public class AccountService {
     String authToken = null;
@@ -17,6 +16,7 @@ public class AccountService {
     HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(headers);
     }
     private final RestTemplate restTemplate =  new RestTemplate();
@@ -29,5 +29,6 @@ public class AccountService {
         balance = num.doubleValue();
         return balance;
     }
+
 }
 
