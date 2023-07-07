@@ -124,7 +124,10 @@ public class App {
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
-		
+        userService.displayUsers();
+        int receiver = consoleService.promptForInt("Please select a user ID to ask for money: ");
+        BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money you are requesting in decimal format: ");
+        transferService.requestTransfer(receiver, amount);
 	}
 
     }

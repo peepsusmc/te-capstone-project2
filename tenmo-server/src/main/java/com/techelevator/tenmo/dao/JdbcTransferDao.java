@@ -41,9 +41,11 @@ public class JdbcTransferDao implements TransferDao{
         String sqlSender = "SELECT account_id FROM account WHERE account_id = ?";
         String sqlReceiver = "SELECT account_id FROM account WHERE account_id = ?";
         String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                "VALUES (2, 2, (" + sqlSender + "), (" + sqlReceiver + "), CAST(? AS numeric))";
+                "VALUES (?, ?, (" + sqlSender + "), (" + sqlReceiver + "), CAST(? AS numeric))";
         jdbcTemplate.update(
                 sql,
+                transfer.getTransferTypeId(),
+                transfer.getTransferStatusId(),
                 transfer.getAccountFrom(),
                 transfer.getAccountTo(),
                 transfer.getAmount().toPlainString()
