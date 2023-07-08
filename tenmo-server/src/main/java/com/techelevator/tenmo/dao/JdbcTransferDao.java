@@ -119,8 +119,20 @@ public class JdbcTransferDao implements TransferDao {
             transfers.add(transferDto);
         }
         return transfers;
-
-
+    }
+    @Override
+    public Transfer getTransferById(int transferId) {
+        Transfer transfer = new Transfer();
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount "  +
+                "FROM transfer where transfer_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
+        transfer.setTransferId(results.getInt("transfer_id"));
+        transfer.setTransferTypeId(results.getInt("transfer_type_id"));
+        transfer.setTransferStatusId(results.getInt("transfer_status_id"));
+        transfer.setAccountFrom(results.getInt("account_from"));
+        transfer.setAccountTo(results.getInt("account_to"));
+        transfer.setAmount(results.getBigDecimal("amount"));
+        return transfer;
     }
 
 }

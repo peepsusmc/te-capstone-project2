@@ -105,4 +105,17 @@ public class JdbcUserDao implements UserDao {
         user.setAuthorities("USER");
         return user;
     }
+
+    public int findUserIdByAccount(int accountId) {
+        String sql = "SELECT a.user_id FROM account a JOIN tenmo_user u ON a.user_id = u.user_id WHERE a.account_id = ?;";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, accountId);
+
+        int userId = 0;
+
+        if (rs.next()) {
+            userId = rs.getInt("user_id");
+        }
+
+        return userId;
+    }
 }
