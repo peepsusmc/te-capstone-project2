@@ -33,6 +33,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -98,37 +99,49 @@ public class App {
         }
     }
 
-	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
+    private void viewCurrentBalance() {
+        // TODO Auto-generated method stub
         double balance = accountService.getBalance();
         System.out.println("Your current account balance is: " + balance);
-	}
+    }
 
-	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
+    private void viewTransferHistory() {
+        // TODO Auto-generated method stub
         transferService.displayTransfers();
-	}
+        int transferId = consoleService.promptForInt("Enter Transfer ID to view details: (0 to cancel): ");
+        if (transferId == 0) {
+            System.out.println("Returning to main menu...");
+            mainMenu();
 
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+        } else {
+            transferService.displayTransferDetails(transferId);
+        }
+    }
 
-	}
+    private void viewPendingRequests() {
+        // TODO Auto-generated method stub
 
-	private void sendBucks() {
-		// TODO Auto-generated method stub
+    }
+
+    private void sendBucks() {
+        // TODO Auto-generated method stub
         userService.displayUsers();
-        int receiver = consoleService.promptForInt("Please select a user ID to send bucks to: ");
-        BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money to send in decimal format: ");
-        transferService.makeTransfer(receiver, amount);
-	}
+        int receiver = consoleService.promptForInt("Please select a user ID to send bucks to (0 to cancel): ");
+        if (receiver == 0) {
+            mainMenu();
+        } else {
+            BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money to send in decimal format: ");
+            transferService.makeTransfer(receiver, amount);
+        }
+    }
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
+    private void requestBucks() {
+        // TODO Auto-generated method stub
         userService.displayUsers();
         int receiver = consoleService.promptForInt("Please select a user ID to ask for money: ");
         BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money you are requesting in decimal format: ");
         transferService.requestTransfer(receiver, amount);
-	}
-
     }
+
+}
 
