@@ -44,9 +44,25 @@ public class TransferService {
         }
     }
 
-    public void updateBalance(int receiver, BigDecimal amount) {
+    public void requestTransfer(int receiver, BigDecimal amount) {
+        String url = baseUrl + "request";
+        Transfer request = new Transfer();
+        request.setAccountFrom(receiver);
+        request.setAmount(amount);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(authToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Transfer> entity = new HttpEntity<>(request, headers);
+
+        try {
+            restTemplate.postForObject(url, entity, Transfer.class);
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
 
     }
+
 
     public List<TransferDto> getTransfersByUser() {
         String url = baseUrl + "/mytransfers";
