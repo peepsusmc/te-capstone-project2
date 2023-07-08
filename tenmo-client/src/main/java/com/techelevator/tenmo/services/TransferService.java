@@ -71,9 +71,6 @@ public class TransferService {
         Transfer transfer = new Transfer();
         transfer.setTransferId(transferId);
         transfer.setTransferStatusId(status);
-//        transfer.setAmount(null);
-//        transfer.setTransferTypeId(2);
-//        transfer.setAccountTo(2);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
