@@ -75,9 +75,32 @@ public class TransferService {
         List<TransferDto> transferDtos = response.getBody();
         return transferDtos;
     }
+    public List<TransferDto> getRequestsByUser() {
+        String url = baseUrl + "/myrequests";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(authToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        ResponseEntity<List<TransferDto>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<TransferDto>>() {
+        });
+        List<TransferDto> transferDtos = response.getBody();
+        return transferDtos;
+    }
 
     public void displayTransfers() {
         List<TransferDto> transferDtos = getTransfersByUser();
+        System.out.printf("%-10s %-20s %-30s%n", "Transfer Id", "FROM/TO", "Amount");
+        for (TransferDto transferDto : transferDtos) {
+            int transferId = transferDto.getTransferId();
+            String from = transferDto.getSenderName();
+            String to = transferDto.getReceiverName();
+            BigDecimal amount = transferDto.getAmount();
+            System.out.printf("%-10d %-20s %-30s%n", transferId, from+ "/"+ to, amount);
+
+        }
+    }
+    public void displayRequests() {
+        List<TransferDto> transferDtos = getRequestsByUser();
         System.out.printf("%-10s %-20s %-30s%n", "Transfer Id", "FROM/TO", "Amount");
         for (TransferDto transferDto : transferDtos) {
             int transferId = transferDto.getTransferId();

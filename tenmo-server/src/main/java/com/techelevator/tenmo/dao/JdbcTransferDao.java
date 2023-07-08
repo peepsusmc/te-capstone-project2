@@ -88,6 +88,34 @@ public class JdbcTransferDao implements TransferDao {
 
 
     }
+    @Override
+    public List<TransferDto> getRequestsByAccountId(int accountId) {
+        List<TransferDto> transfers = new ArrayList<>();
+        String sql = "SELECT t.transfer_id, t.amount, u.username AS sender_name, u2.username AS receiver_name, " +
+                "tt.transfer_type_desc, ts.transfer_status_desc " +
+                "FROM transfer t " +
+                "JOIN account a1 ON t.account_from = a1.account_id " +
+                "JOIN account a2 ON t.account_to = a2.account_id " +
+                "JOIN tenmo_user u ON a1.user_id = u.user_id " +
+                "JOIN tenmo_user u2 ON a2.user_id = u2.user_id " +
+                "JOIN transfer_type tt ON t.transfer_type_id = tt.transfer_type_id " +
+                "JOIN transfer_status ts ON t.transfer_status_id = ts.transfer_status_id " +
+                "WHERE a1.account_id = ? AND t.transfer_status = 1;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
+        while (results.next()) {
+            TransferDto transferDto = new TransferDto();
+            transferDto.setTransferId(results.getInt("transfer_id"));
+            transferDto.setAmount(results.getBigDecimal("amount"));
+            transferDto.setSenderName(results.getString("sender_name"));
+            transferDto.setReceiverName(results.getString("receiver_name"));
+            transferDto.setTransferType(results.getString("transfer_type_desc"));
+            transferDto.setTransferStatus(results.getString("transfer_status_desc"));
+            transfers.add(transferDto);
+        }
+        return transfers;
+
+
+    }
 
 }
 

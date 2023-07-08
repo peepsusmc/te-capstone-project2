@@ -67,6 +67,13 @@ public class TransferController {
         Account a = accountDao.getAccountByUserId(userId);
         int accountId = a.getAccountId();
         return transferDao.getTransferByAccountId(accountId);
+    }
 
+    @RequestMapping(value = "/myrequests", method = RequestMethod.GET)
+    public List<TransferDto> getRequestsByAccountId(Principal p) {
+        int userId = userDao.findIdByUsername(p.getName());
+        Account a = accountDao.getAccountByUserId(userId);
+        int accountId = a.getAccountId();
+        return transferDao.getRequestsByAccountId(accountId);
     }
 }
