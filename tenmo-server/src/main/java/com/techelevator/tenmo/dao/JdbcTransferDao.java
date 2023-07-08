@@ -59,6 +59,12 @@ public class JdbcTransferDao implements TransferDao {
                 transfer.getAmount().toPlainString()
         );
     }
+    @Override
+    public void updateTransfer(Transfer transfer) {
+        String sql = "UPDATE transfer SET transfer_status_id = ?"  +
+                "WHERE transfer_id = ?;";
+        jdbcTemplate.update(sql, transfer.getTransferId(), transfer.getTransferStatusId());
+    }
 
     @Override
     public List<TransferDto> getTransferByAccountId(int accountId) {
@@ -100,7 +106,7 @@ public class JdbcTransferDao implements TransferDao {
                 "JOIN tenmo_user u2 ON a2.user_id = u2.user_id " +
                 "JOIN transfer_type tt ON t.transfer_type_id = tt.transfer_type_id " +
                 "JOIN transfer_status ts ON t.transfer_status_id = ts.transfer_status_id " +
-                "WHERE a1.account_id = ? AND t.transfer_status = 1;";
+                "WHERE a1.account_id = ? AND t.transfer_status_id = 1;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
         while (results.next()) {
             TransferDto transferDto = new TransferDto();

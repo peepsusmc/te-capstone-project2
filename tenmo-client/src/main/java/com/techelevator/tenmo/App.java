@@ -8,6 +8,7 @@ import com.techelevator.tenmo.services.*;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Map;
+import java.util.Objects;
 
 public class App {
 
@@ -110,9 +111,19 @@ public class App {
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stu
         transferService.displayRequests();
-
+        int request = consoleService.promptForInt("Please select a transfer ID to respond to: ");
+        String response = consoleService.promptForString("Please enter Y to confirm or N to deny request : ");
+        int statusId = 0;
+        if (Objects.equals(response, "Y")) {
+            statusId = 2;
+        } else if (Objects.equals(response, "N")) {
+            statusId = 3;
+        } else {
+            System.out.println("Invalid selection");
+        }
+        transferService.updateTransfer(request, statusId);
 	}
 
 	private void sendBucks() {
