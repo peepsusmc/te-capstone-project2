@@ -18,12 +18,13 @@ public class AccountController {
     private final AccountDao accountDao;
     private final UserDao userDao;
 
-    public AccountController(AccountDao accountDao, UserDao userDao){
+    public AccountController(AccountDao accountDao, UserDao userDao) {
         this.accountDao = accountDao;
         this.userDao = userDao;
     }
+
     @RequestMapping(value = "/balance", method = RequestMethod.GET)
-    public double getBalance(Principal p){
+    public double getBalance(Principal p) {
         double balance = 0.0;
         int userId = userDao.findIdByUsername(p.getName());
         Account account = accountDao.getAccountByUserId(userId);

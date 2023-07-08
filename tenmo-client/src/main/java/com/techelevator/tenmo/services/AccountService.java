@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public class AccountService {
     String authToken = null;
-    private final String baseUrl = "http://localhost:8080/" ;
+    private final String baseUrl = "http://localhost:8080/";
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
@@ -19,7 +19,8 @@ public class AccountService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(headers);
     }
-    private final RestTemplate restTemplate =  new RestTemplate();
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public double getBalance() {
         double balance = 0.0;

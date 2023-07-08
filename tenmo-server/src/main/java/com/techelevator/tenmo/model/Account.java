@@ -2,7 +2,7 @@ package com.techelevator.tenmo.model;
 
 import com.techelevator.tenmo.dao.AccountDao;
 
-public class Account  {
+public class Account {
 
     private int accountId;
 
@@ -10,7 +10,8 @@ public class Account  {
 
     private double balance;
 
-    public Account() {}
+    public Account() {
+    }
 
     public Account(int accountId, int userId, double balance) {
         this.accountId = accountId;

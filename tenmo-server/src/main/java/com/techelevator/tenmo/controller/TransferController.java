@@ -19,11 +19,12 @@ public class TransferController {
     private final TransferDao transferDao;
     private final AccountDao accountDao;
 
-    public TransferController(AccountDao accountDao, UserDao userDao, TransferDao transferDao){
+    public TransferController(AccountDao accountDao, UserDao userDao, TransferDao transferDao) {
         this.accountDao = accountDao;
         this.userDao = userDao;
         this.transferDao = transferDao;
     }
+
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public void createTransfer(Principal p, @RequestBody Transfer transfer) {
         int senderId = userDao.findIdByUsername(p.getName());
@@ -71,7 +72,7 @@ public class TransferController {
     }
 
     @RequestMapping(value = "/mytransfers", method = RequestMethod.GET)
-    public List<TransferDto> getTransferByAccountId(Principal p){
+    public List<TransferDto> getTransferByAccountId(Principal p) {
         int userId = userDao.findIdByUsername(p.getName());
         Account a = accountDao.getAccountByUserId(userId);
         int accountId = a.getAccountId();
