@@ -11,6 +11,7 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.http.HttpEntity;
@@ -70,10 +71,15 @@ public class TransferService {
         headers.setBearerAuth(authToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-        ResponseEntity<List<TransferDto>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<TransferDto>>() {
-        });
-        List<TransferDto> transferDtos = response.getBody();
-        return transferDtos;
+        try {
+            ResponseEntity<List<TransferDto>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<TransferDto>>() {
+            });
+            List<TransferDto> transferDtos = response.getBody();
+            return transferDtos;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
     public void displayTransfers() {
@@ -84,8 +90,29 @@ public class TransferService {
             String from = transferDto.getSenderName();
             String to = transferDto.getReceiverName();
             BigDecimal amount = transferDto.getAmount();
-            System.out.printf("%-10d %-20s %-30s%n", transferId, from+ "/"+ to, amount);
+            System.out.printf("%-10d %-20s %-30s%n", transferId, from + "/" + to, amount);
 
+        }
+    }
+
+    public void displayTransferDetails(int transferId) {
+        List<TransferDto> transferDtos = getTransfersByUser();
+        boolean gotIt = false;
+        for (TransferDto transferDto : transferDtos) {
+            if (transferDto.getTransferId() == transferId) {
+                System.out.println("Transfer Details ");
+                System.out.println("Transfer ID: " + transferId);
+                System.out.println("From: " + transferDto.getSenderName());
+                System.out.println("To: " + transferDto.getReceiverName());
+                System.out.println("Type: " + transferDto.getTransferType());
+                System.out.println("Status: " + transferDto.getTransferStatus());
+                System.out.println("Amount: " + transferDto.getAmount());
+                gotIt = true;
+                break;
+            }
+        }
+        if (!gotIt) {
+            System.out.println("Transfer with ID " + transferId + "does not exist.");
         }
     }
 }

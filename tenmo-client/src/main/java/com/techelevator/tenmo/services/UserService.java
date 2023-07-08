@@ -1,4 +1,6 @@
 package com.techelevator.tenmo.services;
+
+import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -6,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import com.techelevator.tenmo.model.User;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ public class UserService {
     private final String baseUrl = "http://localhost:8080/";
 
     private final RestTemplate restTemplate = new RestTemplate();
+
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
@@ -27,15 +32,19 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-        ResponseEntity<List<User>> entity = restTemplate.exchange(baseUrl + "/users", HttpMethod.GET, makeAuthEntity(), new ParameterizedTypeReference<>() {
-        });
-        if (entity.getStatusCode() == HttpStatus.OK) {
-            List<User> users = entity.getBody();
-            if (users != null) {
-                return users;
+        try {
+            ResponseEntity<List<User>> entity = restTemplate.exchange(baseUrl + "/users", HttpMethod.GET, makeAuthEntity(), new ParameterizedTypeReference<>() {
+            });
+            if (entity.getStatusCode() == HttpStatus.OK) {
+                List<User> users = entity.getBody();
+                if (users != null) {
+                    return users;
+                }
+            } else {
+                System.out.println("Error " + entity.getStatusCodeValue());
             }
-        } else {
-            System.out.println("Error " + entity.getStatusCodeValue());
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
         }
         return new ArrayList<>();
 
@@ -47,7 +56,7 @@ public class UserService {
         for (User user : users) {
             int userId = user.getId();
             String username = user.getUsername();
-            System.out.printf("%-10d %-20s%n",userId, username);
+            System.out.printf("%-10d %-20s%n", userId, username);
 
         }
     }
