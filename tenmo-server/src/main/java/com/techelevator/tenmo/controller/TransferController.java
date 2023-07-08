@@ -45,14 +45,16 @@ public class TransferController {
     }
 
     @RequestMapping(value = "transfer/{id}", method = RequestMethod.PUT)
-    public void updateTransfer(@PathVariable("id") int id, Principal p, @RequestBody Transfer transfer) {
+    public void updateTransfer(Principal p, @RequestBody Transfer transfer) {
         Transfer updatedTransfer = transferDao.getTransferById(transfer.getTransferId());
         int senderId = userDao.findIdByUsername(p.getName());
         int receiverId = userDao.findUserIdByAccount(updatedTransfer.getAccountTo());
         BigDecimal amount = updatedTransfer.getAmount();
         updatedTransfer.setTransferStatusId(transfer.getTransferStatusId());
         transferDao.updateTransfer(updatedTransfer);
-        accountDao.updateAccountBalance(senderId, receiverId, amount);
+        if (transfer.getTransferStatusId() == 2) {
+            accountDao.updateAccountBalance(senderId, receiverId, amount);
+        }
     }
 
     @RequestMapping(value = "/request", method = RequestMethod.POST)
