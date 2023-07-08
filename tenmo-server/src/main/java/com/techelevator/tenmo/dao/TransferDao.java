@@ -13,6 +13,6 @@ public interface TransferDao {
     List<TransferDto>getTransferByAccountId(int accountId);
     List<TransferDto> getRequestsByAccountId(int accountId);
     void updateTransfer(Transfer transfer);
-    
+    Transfer getTransferById(int transferId);
 
 }

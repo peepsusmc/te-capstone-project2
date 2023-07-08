@@ -44,12 +44,13 @@ public class TransferController {
         accountDao.updateAccountBalance(senderId, receiverId, amount);
     }
     @RequestMapping(value = "/transfer/{id}", method = RequestMethod.PUT)
-    public void updateTransfer(@PathVariable("id") int id,Principal p, @RequestBody Transfer transfer) {
-        transferDao.g
+    public void updateTransfer(@PathVariable("id") int id, Principal p, @RequestBody Transfer transfer) {
+        Transfer updatedTransfer = transferDao.getTransferById(transfer.getTransferId());
         int senderId = userDao.findIdByUsername(p.getName());
-        int receiverId =
-        BigDecimal amount = transfer.getAmount();
-        transferDao.updateTransfer(transfer);
+        int receiverId = userDao.findUserIdByAccount(updatedTransfer.getAccountTo());
+        BigDecimal amount = updatedTransfer.getAmount();
+        updatedTransfer.setTransferStatusId(transfer.getTransferStatusId());
+        transferDao.updateTransfer(updatedTransfer);
         accountDao.updateAccountBalance(senderId, receiverId, amount);
     }
 

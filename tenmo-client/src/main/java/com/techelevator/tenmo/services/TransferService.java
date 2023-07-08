@@ -6,6 +6,7 @@ import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -63,9 +64,9 @@ public class TransferService {
         }
 
     }
-    public boolean updateTransfer(int transferId, int status) {
+    public boolean updateTransfer(@PathVariable("id") int transferId, int status) {
         boolean success = false;
-        String url = baseUrl + "transfer";
+        String url = baseUrl + "transfer/{id}";
         Transfer transfer = new Transfer();
         transfer.setTransferId(transferId);
         transfer.setTransferStatusId(status);
