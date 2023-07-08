@@ -43,7 +43,8 @@ public class TransferController {
         transferDao.createTransfer(send);
         accountDao.updateAccountBalance(senderId, receiverId, amount);
     }
-    @RequestMapping(value = "/transfer/{id}", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "transfer/{id}", method = RequestMethod.PUT)
     public void updateTransfer(@PathVariable("id") int id, Principal p, @RequestBody Transfer transfer) {
         Transfer updatedTransfer = transferDao.getTransferById(transfer.getTransferId());
         int senderId = userDao.findIdByUsername(p.getName());
