@@ -64,12 +64,16 @@ public class TransferService {
         }
 
     }
+
     public boolean updateTransfer(@PathVariable("id") int transferId, int status) {
         boolean success = false;
-        String url = baseUrl + "transfer/{id}";
+        String url = baseUrl + "transfer/" + transferId;
         Transfer transfer = new Transfer();
         transfer.setTransferId(transferId);
         transfer.setTransferStatusId(status);
+//        transfer.setAmount(null);
+//        transfer.setTransferTypeId(2);
+//        transfer.setAccountTo(2);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
@@ -101,6 +105,7 @@ public class TransferService {
             return Collections.emptyList();
         }
     }
+
     public List<TransferDto> getRequestsByUser() {
         String url = baseUrl + "/myrequests";
         HttpHeaders headers = new HttpHeaders();
@@ -146,6 +151,7 @@ public class TransferService {
             System.out.println("Transfer with ID " + transferId + "does not exist.");
         }
     }
+
     public void displayRequests() {
         List<TransferDto> transferDtos = getRequestsByUser();
         System.out.printf("%-10s %-20s %-30s%n", "Transfer Id", "FROM", "Amount");
