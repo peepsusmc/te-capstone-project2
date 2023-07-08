@@ -63,6 +63,25 @@ public class TransferService {
         }
 
     }
+    public boolean updateTransfer(int transferId, int status) {
+        boolean success = false;
+        String url = baseUrl + "transfer";
+        Transfer transfer = new Transfer();
+        transfer.setTransferId(transferId);
+        transfer.setTransferStatusId(status);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(authToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
+        try {
+            restTemplate.put(url, entity);
+            success = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return success;
+    }
 
 
     public List<TransferDto> getTransfersByUser() {
@@ -80,6 +99,17 @@ public class TransferService {
             BasicLogger.log(e.getMessage());
             return Collections.emptyList();
         }
+    }
+    public List<TransferDto> getRequestsByUser() {
+        String url = baseUrl + "/myrequests";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(authToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        ResponseEntity<List<TransferDto>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<TransferDto>>() {
+        });
+        List<TransferDto> transferDtos = response.getBody();
+        return transferDtos;
     }
 
     public void displayTransfers() {
@@ -113,6 +143,18 @@ public class TransferService {
         }
         if (!gotIt) {
             System.out.println("Transfer with ID " + transferId + "does not exist.");
+        }
+    }
+    public void displayRequests() {
+        List<TransferDto> transferDtos = getRequestsByUser();
+        System.out.printf("%-10s %-20s %-30s%n", "Transfer Id", "FROM", "Amount");
+        for (TransferDto transferDto : transferDtos) {
+            int transferId = transferDto.getTransferId();
+            String from = transferDto.getSenderName();
+            String to = transferDto.getReceiverName();
+            BigDecimal amount = transferDto.getAmount();
+            System.out.printf("%-10d %-20s %-30s%n", transferId, to, amount);
+
         }
     }
 }
