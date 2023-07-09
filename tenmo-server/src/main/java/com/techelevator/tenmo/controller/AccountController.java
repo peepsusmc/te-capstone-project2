@@ -24,8 +24,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET)
-    public double getBalance(Principal p) {
-        double balance = 0.0;
+    public BigDecimal getBalance(Principal p) {
+        BigDecimal balance = 0.0;
         int userId = userDao.findIdByUsername(p.getName());
         Account account = accountDao.getAccountByUserId(userId);
         balance = account.getBalance();

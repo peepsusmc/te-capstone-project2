@@ -119,8 +119,8 @@ public class App {
         }
     }
 
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stu
+    private void viewPendingRequests() {
+        // TODO Auto-generated method stu
         transferService.displayRequests();
         int request = consoleService.promptForInt("Please select a transfer ID to respond to: ");
         String response = consoleService.promptForString("Please enter Y to confirm or N to deny request : ");
@@ -133,7 +133,7 @@ public class App {
             System.out.println("Invalid selection");
         }
         transferService.updateTransfer(request, statusId);
-	}
+    }
 
     private void sendBucks() {
         // TODO Auto-generated method stub
@@ -143,7 +143,15 @@ public class App {
             mainMenu();
         } else {
             BigDecimal amount = consoleService.promptForBigDecimal("Please enter the amount of money to send in decimal format: ");
-            transferService.makeTransfer(receiver, amount);
+            double amount2 = accountService.getBalance();
+            int comparison = amount.compareTo(BigDecimal.valueOf(amount2));
+            if (comparison > 0 || comparison == 0) {
+                System.out.println("Not enough funds");
+                mainMenu();
+            } else {
+
+                transferService.makeTransfer(receiver, amount);
+            }
         }
     }
 
