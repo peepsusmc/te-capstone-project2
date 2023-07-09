@@ -44,7 +44,7 @@ public class TransferService {
             System.out.println("Transfer successful!");
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
-            System.out.println("Error occured: " + e.getMessage());
+            System.out.println("Error occurred: " + e.getMessage());
         }
     }
 
