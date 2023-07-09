@@ -8,13 +8,14 @@ import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
 @RestController
+@PreAuthorize("isAuthenticated()")
 public class TransferController {
 
     private final UserDao userDao;
