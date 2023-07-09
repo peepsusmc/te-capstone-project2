@@ -6,6 +6,8 @@ import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -26,7 +28,7 @@ public class TransferController {
     }
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-    public void createTransfer(Principal p, @RequestBody Transfer transfer) {
+    public ResponseEntity<?> createTransfer(Principal p, @RequestBody Transfer transfer) {
         int senderId = userDao.findIdByUsername(p.getName());
         Account sender = accountDao.getAccountByUserId(senderId);
         Account receiver = accountDao.getAccountByUserId(transfer.getAccountTo());
@@ -34,6 +36,10 @@ public class TransferController {
         int accountFromId = sender.getAccountId();
         int accountToId = receiver.getAccountId();
         BigDecimal amount = transfer.getAmount();
+        if (accountFromId == accountToId) {
+            String error = "Cannot send money to yourself!";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
         Transfer send = new Transfer();
         send.setTransferTypeId(2);
         send.setTransferStatusId(2);
@@ -42,6 +48,7 @@ public class TransferController {
         send.setAmount(amount);
         transferDao.createTransfer(send);
         accountDao.updateAccountBalance(senderId, receiverId, amount);
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "transfer/{id}", method = RequestMethod.PUT)
