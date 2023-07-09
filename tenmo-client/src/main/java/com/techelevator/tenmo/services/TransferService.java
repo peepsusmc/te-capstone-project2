@@ -41,8 +41,10 @@ public class TransferService {
         HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
         try {
             restTemplate.postForObject(url, entity, Transfer.class);
+            System.out.println("Transfer successful!");
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
+            System.out.println("Error occured: " + e.getMessage());
         }
     }
 
