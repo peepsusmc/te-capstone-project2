@@ -2,7 +2,6 @@ package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.TransferDto;
 import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -10,18 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 
 public class TransferService {
 
     String authToken = null;
-    private final String baseUrl = "http://localhost:8080/";
+    public static String baseUrl = "http://localhost:8080/";
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -29,7 +26,7 @@ public class TransferService {
         this.authToken = authToken;
     }
 
-    public void makeTransfer(int receiver, BigDecimal amount) {
+    public Transfer makeTransfer(int receiver, BigDecimal amount) {
         String url = baseUrl + "transfer";
         Transfer transfer = new Transfer();
         transfer.setAccountTo(receiver);
@@ -46,6 +43,7 @@ public class TransferService {
             BasicLogger.log(e.getMessage());
             System.out.println("Error occurred: " + e.getMessage());
         }
+        return transfer;
     }
 
     public void requestTransfer(int receiver, BigDecimal amount) {
