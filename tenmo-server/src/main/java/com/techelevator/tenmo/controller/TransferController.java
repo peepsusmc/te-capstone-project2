@@ -3,6 +3,7 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDto;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -59,9 +62,13 @@ public class TransferController {
         int receiverId = userDao.findUserIdByAccount(updatedTransfer.getAccountTo());
         BigDecimal amount = updatedTransfer.getAmount();
         updatedTransfer.setTransferStatusId(transfer.getTransferStatusId());
-        transferDao.updateTransfer(updatedTransfer);
-        if (transfer.getTransferStatusId() == 2) {
-            accountDao.updateAccountBalance(senderId, receiverId, amount);
+        try {
+            transferDao.updateTransfer(updatedTransfer);
+            if (transfer.getTransferStatusId() == 2) {
+                accountDao.updateAccountBalance(senderId, receiverId, amount);
+            }
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfer not found.");
         }
     }
 

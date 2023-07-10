@@ -1,9 +1,12 @@
 package com.techelevator.tenmo.services;
 
+
+import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 
 public class AccountService {
     String authToken = null;
@@ -25,9 +28,15 @@ public class AccountService {
     public double getBalance() {
         double balance = 0.0;
         String url = baseUrl + "/balance";
-        ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, makeAuthEntity(), Double.class);
-        Double num = response.getBody();
-        balance = num.doubleValue();
+        try {
+            ResponseEntity<Double> response = restTemplate.exchange(url, HttpMethod.GET, makeAuthEntity(), Double.class);
+            Double num = response.getBody();
+            balance = num.doubleValue();
+        } catch(RestClientResponseException e) {
+            BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
+        } catch (ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
         return balance;
     }
 
